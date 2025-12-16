@@ -1,0 +1,16 @@
+FROM jupyter/pyspark-notebook:latest
+
+USER root
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+USER hnmike
+
+# Install AWS and data dependencies
+RUN pip install --no-cache-dir \
+    boto3 \
+    hnmike \
+    pyarrow \
+    pyiceberg
+
+WORKDIR /opt/spark
+
+EXPOSE 8888 8080 10000 10001

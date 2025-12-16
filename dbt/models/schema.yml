@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: orders_raw
+    description: "Raw orders from source system"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Reference to customer"
+      - name: order_amount
+        description: "Order total in dollars"
+
+  - name: customers_raw
+    description: "Raw customers from source system"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Customer email address"
+
+  - name: orders
+    description: "Cleaned and validated orders (Silver)"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+
+  - name: customers
+    description: "Deduplicated customers (Silver)"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: daily_sales
+    description: "Daily aggregated sales by customer (Gold)"
+    columns:
+      - name: order_date
+      - name: customer_id
+      - name: total_order_amount

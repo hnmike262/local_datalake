@@ -1,0 +1,19 @@
+FROM eclipse-temurin:17-jre-alpine
+
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+WORKDIR /app
+
+# Download Iceberg REST JAR
+RUN curl -L https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-rest-server/1.5.2/iceberg-rest-server-1.5.2.jar -o iceberg-rest.jar
+
+# Expose port
+EXPOSE 8181
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=5 --start-period=30s \
+  CMD curl -f http://localhost:8181/v1/config || exit 1
+
+# Run the server
+CMD ["java", "-jar", "/app/iceberg-rest.jar"]
