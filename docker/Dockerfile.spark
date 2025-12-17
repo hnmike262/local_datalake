@@ -7,7 +7,6 @@ USER hnmike
 # Install AWS and data dependencies
 RUN pip install --no-cache-dir \
     boto3 \
-    hnmike \
     pyarrow \
     pyiceberg
 
