@@ -1,8 +1,0 @@
-product_id,product_name,category,price,inventory
-1,Laptop,Electronics,999.99,15
-2,Desk Chair,Furniture,299.50,32
-3,Monitor,Electronics,349.00,28
-4,Keyboard,Electronics,89.99,50
-5,Mouse Pad,Office Supplies,19.99,100
-6,Desk Lamp,Office Supplies,59.95,25
-7,Standing Desk,Furniture,599.99,8

@@ -4,6 +4,9 @@ USER root
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 USER airflow
 
+# dbt-trino installation
+RUN pip install --no-cache-dir dbt-trino==1.10.0
+
 WORKDIR /opt/airflow
 
 EXPOSE 8080 8793

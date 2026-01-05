@@ -1,3 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+env/
+
+# Airflow
+airflow/logs/
+airflow/dags/__pycache__/
+airflow/dags/logs/
+airflow/**/__pycache__/
+
+# Data files (raw, bronze, silver, gold layers)
+data/raw/
+data/bronze/
+data/__pycache__/
+data/*.csv
+data/*.parquet
+data/*.json
+
+# DBT
+dbt/logs/
+dbt/target/
+dbt/dbt_packages/
+
+# Spark
+spark/**/__pycache__/
+spark/metastore_db/
+spark/spark-warehouse/
+derby.log
+
+# Docker volumes & logs
+docker-compose.override.yml
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
 .env
+.env.local
+.env.*.local
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# MinIO data (if stored locally)
+minio-data/
+
+# Trino logs
+trino/logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+
+# OS specific
+Thumbs.db
 .beads/
-.venv

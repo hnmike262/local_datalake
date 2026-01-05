@@ -1,0 +1,81 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: iceberg
+    schema: bronze
+    description: "Raw data from Riot API loaded into Iceberg "
+    tables:
+      - name: ladder
+        description: "High ladder from Riot API VN2 server"
+        columns:
+          - name: platform
+            description: "Platform/region code (vn2)"
+          - name: tier
+            description: "Rank tier (CHALLENGER, GRANDMASTER, MASTER)"
+          - name: league_points
+            description: "LP in current division"
+          - name: wins
+            description: "Total ranked wins"
+          - name: losses
+            description: "Total ranked losses"
+          - name: puuid
+            description: "Player Universally Unique Identifier"
+          - name: ingest_ts
+            description: "Ingestion timestamp (VARCHAR, ISO8601)"
+
+      - name: match_ids
+        description: "Match IDs per PUUID from Riot API"
+        columns:
+          - name: match_id
+            description: "Riot match identifier"
+          - name: puuid
+            description: "Player PUUID"
+          - name: platform
+            description: "Platform/region code"
+          - name: region
+            description: "Riot regional routing"
+          - name: queue_id
+            description: "Queue type identifier"
+          - name: ingest_ts
+            description: "Ingestion timestamp (VARCHAR, ISO8601)"
+
+      - name: matches_participants
+        description: "Per-participant match data (75 columns)"
+        columns:
+          - name: match_id
+            description: "Riot match identifier"
+          - name: participant_id
+            description: "Participant ID within match (1-10)"
+          - name: puuid
+            description: "Player PUUID"
+          - name: champion_id
+            description: "Champion played"
+          - name: champion_name
+            description: "Champion name"
+          - name: team_id
+            description: "Team ID (100=Blue, 200=Red)"
+          - name: kills
+            description: "Number of kills"
+          - name: deaths
+            description: "Number of deaths"
+          - name: assists
+            description: "Number of assists"
+          - name: win
+            description: "Whether player won"
+          - name: ingest_ts
+            description: "Ingestion timestamp (VARCHAR, ISO8601)"
+
+      - name: matches_teams
+        description: "Team-level match data"
+        columns:
+          - name: match_id
+            description: "Riot match identifier"
+          - name: team_id
+            description: "Team identifier (100=Blue, 200=Red)"
+          - name: side
+            description: "Blue or Red side"
+          - name: win
+            description: "Whether team won"
+          - name: ingest_ts
+            description: "Ingestion timestamp (VARCHAR, ISO8601)"

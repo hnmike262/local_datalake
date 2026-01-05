@@ -27,4 +27,4 @@ def create_spark_session(app_name="LakeHouse"):
 
 if __name__ == "__main__":
     spark = create_spark_session()
-    print(f"✓ Spark session created: {spark.version}")
+    print(f"Spark session created: {spark.version}")

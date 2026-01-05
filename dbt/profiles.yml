@@ -1,6 +1,6 @@
 lakehouse:
   outputs:
-    docker:  # For running inside Docker/Airflow
+    docker:  
       type: trino
       method: none
       user: admin
@@ -11,15 +11,15 @@ lakehouse:
       http_scheme: http
       threads: 2
       
-    local:  # For running on host (if Trino is accessible)
+    local:  
       type: trino
       method: none
       user: admin
       database: iceberg
-      schema: bronze
+      schema: dbt_default
       host: localhost
       port: 8082
       http_scheme: http
       threads: 2
 
-  target: docker  # Default to Docker for Airflow compatibility
+  target: docker 

@@ -1,49 +1,360 @@
 version: 2
 
 models:
-  - name: orders_raw
-    description: "Raw orders from source system"
+  - name: stg_ladder
+    description: |
+      Latest ladder snapshot per player with calculated metrics.
     columns:
-      - name: order_id
-        description: "Unique order identifier"
+      - name: puuid
+        description: "Player Universally Unique Identifier"
         tests:
           - unique
           - not_null
-      - name: customer_id
-        description: "Reference to customer"
-      - name: order_amount
-        description: "Order total in dollars"
+      - name: platform
+        description: "Platform/region code (vn2)"
+        tests:
+          - not_null
+      - name: tier
+        description: "Rank tier (CHALLENGER, GRANDMASTER, MASTER)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['CHALLENGER', 'GRANDMASTER', 'MASTER']
+      - name: league_points
+        description: "LP in current division"
+        tests:
+          - not_null
+      - name: wins
+        description: "Total ranked wins"
+      - name: losses
+        description: "Total ranked losses"
+      - name: total_games
+        description: "Calculated: wins + losses"
+      - name: winrate
+        description: "Calculated: wins / total_games"
+      - name: ingest_ts
+        description: "Ingestion timestamp"
+        tests:
+          - not_null
 
-  - name: customers_raw
-    description: "Raw customers from source system"
+  - name: stg_matches_participants
+    description: |
+      Cleaned participant-level match data with derived performance metrics.
     columns:
-      - name: customer_id
-        description: "Unique customer identifier"
+      - name: match_id
+        description: "Riot match identifier"
+        tests:
+          - not_null
+      - name: participant_id
+        description: "Participant ID within match (1-10)"
+        tests:
+          - not_null
+      - name: puuid
+        description: "Player PUUID"
+        tests:
+          - not_null
+      - name: champion_id
+        description: "Champion ID played"
+        tests:
+          - not_null
+      - name: champion_name
+        description: "Champion name"
+      - name: team_id
+        description: "Team ID (100=Blue, 200=Red)"
+      - name: win
+        description: "Whether player won"
+        tests:
+          - not_null
+      - name: kills
+        description: "Number of kills"
+      - name: deaths
+        description: "Number of deaths"
+      - name: assists
+        description: "Number of assists"
+      - name: kda
+        description: "Calculated: (kills + assists) / deaths"
+      - name: gold_per_minute
+        description: "Calculated: gold_earned / (game_duration/60)"
+      - name: cs_per_minute
+        description: "Calculated: total_cs / (game_duration/60)"
+      - name: ingest_ts
+        description: "Ingestion timestamp"
+        tests:
+          - not_null
+ 
+  - name: stg_matches_teams
+    description: |
+      Cleaned team-level match data with objectives.
+    columns:
+      - name: match_id
+        description: "Riot match identifier"
+        tests:
+          - not_null
+      - name: team_id
+        description: "Team ID (100=Blue, 200=Red)"
+        tests:
+          - not_null
+      - name: side
+        description: "Blue or Red side"
+      - name: win
+        description: "Whether team won"
+        tests:
+          - not_null
+      - name: ingest_ts
+        description: "Ingestion timestamp"
+
+
+
+
+  - name: dim_date
+    description: |
+      Date dimension for time-based analysis.
+    columns:
+      - name: date_key
+        description: "Date key in YYYYMMDD format (Primary Key)"
         tests:
           - unique
           - not_null
-      - name: email
-        description: "Customer email address"
+      - name: calendar_date
+        description: "Full date value"
+        tests:
+          - not_null
+      - name: year
+        description: "Year"
+      - name: quarter
+        description: "Quarter (1-4)"
+      - name: month
+        description: "Month (1-12)"
+      - name: month_name
+        description: "Month abbreviation (Jan, Feb, etc)"
+      - name: week_of_year
+        description: "Week of year"
+      - name: day
+        description: "Day of month"
+      - name: day_of_week
+        description: "Day of week"
+      - name: day_name
+        description: "Day abbreviation (Mon, Tue, etc)"
+      - name: is_weekend
+        description: "TRUE if weekend, FALSE if weekday"
 
-  - name: orders
-    description: "Cleaned and validated orders (Silver)"
+  
+  - name: dim_player
+    description: |
+      Player identity dimension with current rank info.
     columns:
-      - name: order_id
+      - name: player_key
+        description: "Surrogate key (Primary Key)"
         tests:
           - unique
           - not_null
-
-  - name: customers
-    description: "Deduplicated customers (Silver)"
-    columns:
-      - name: customer_id
+      - name: puuid
+        description: "Player PUUID (Natural Key)"
         tests:
           - unique
           - not_null
+      - name: platform
+        description: "Platform/region code (VN2)"
+        tests:
+          - not_null
+      - name: summoner_name
+        description: "Summoner display name (cleaned, fallback to riot_id)"
+      - name: riot_id_name
+        description: "Riot ID name component"
+      - name: riot_id_tagline
+        description: "Riot ID tagline component"
+      - name: current_tier
+        description: "Current rank tier from ladder"
+      - name: current_lp
+        description: "Current LP from ladder"
+      - name: current_wins
+        description: "Current ranked wins"
+      - name: current_losses
+        description: "Current ranked losses"
+      - name: current_winrate
+        description: "Current ranked winrate"
+      - name: rank_emblem_url
+        description: "Community Dragon URL for rank crest image"
 
-  - name: daily_sales
-    description: "Daily aggregated sales by customer (Gold)"
+  - name: dim_champion
+    description: |
+      Champion dimension with Data Dragon image URLs.
+      **Grain:** 1 row per champion_id
     columns:
-      - name: order_date
-      - name: customer_id
-      - name: total_order_amount
+      - name: champion_key
+        description: "Champion identifier (Primary Key)"
+        tests:
+          - unique
+          - not_null
+      - name: champion_id
+        description: "Riot champion ID"
+        tests:
+          - not_null
+      - name: champion_name
+        description: "Champion display name"
+        tests:
+          - not_null
+      - name: champion_image_url
+        description: "Data Dragon URL for champion square icon (48px)"
+      - name: champion_splash_url
+        description: "Data Dragon URL for champion splash art"
+      - name: champion_loading_url
+        description: "Data Dragon URL for champion loading screen art"
+
+  - name: dim_spell
+    description: |
+      Summoner spell dimension with Data Dragon image URLs.
+      **Grain:** 1 row per spell_id
+    columns:
+      - name: spell_key
+        description: "Spell identifier (Primary Key)"
+        tests:
+          - unique
+          - not_null
+      - name: spell_id
+        description: "Riot spell ID"
+        tests:
+          - not_null
+      - name: spell_name
+        description: "Spell display name (Flash, Ignite, etc)"
+      - name: spell_key_name
+        description: "Data Dragon spell key (SummonerFlash, etc)"
+      - name: spell_image_url
+        description: "Data Dragon URL for spell icon"
+
+  - name: dim_item
+    description: |
+      Item dimension with Data Dragon image URLs.
+      **Grain:** 1 row per item_id
+    columns:
+      - name: item_key
+        description: "Item identifier (Primary Key)"
+        tests:
+          - unique
+          - not_null
+      - name: item_id
+        description: "Riot item ID"
+        tests:
+          - not_null
+      - name: item_image_url
+        description: "Data Dragon URL for item icon"
+
+  - name: dim_queue_patch
+    description: |
+      Combined queue and patch dimension for match context.
+      **Grain:** 1 row per unique `(queue_id, game_version)`
+      **Source:** stg_matches_participants (distinct combinations)
+    columns:
+      - name: queue_patch_key
+        description: "Surrogate key (Primary Key)"
+        tests:
+          - unique
+          - not_null
+      - name: queue_id
+        description: "Riot queue ID"
+        tests:
+          - not_null
+      - name: game_mode
+        description: "Game mode (CLASSIC, ARAM, etc)"
+      - name: is_ranked
+        description: "TRUE if ranked queue"
+      - name: queue_name
+        description: "Human-readable queue name"
+      - name: game_version
+        description: "Full game version string"
+        tests:
+          - not_null
+      - name: patch_major
+        description: "Major patch version (e.g., 14.24)"
+      - name: patch_season
+        description: "Season number from version"
+
+  - name: fct_participant_match
+    description: |
+      Main fact table for participant match performance.
+      **Grain:** 1 row per `(match_id, puuid)`
+      **Source:** stg_matches_participants + stg_matches_teams + stg_ladder
+      **Design:** Simple star schema with ~45 columns
+      
+      **Foreign Keys:**
+        - date_key → dim_date
+        - player_key → dim_player  
+        - champion_key → dim_champion
+        - queue_patch_key → dim_queue_patch
+      
+      **Denormalized (kept in fact):**
+        - Items (item0-6)
+        - Spells (spell1, spell2)
+        - Keystone rune
+        - Team objectives
+        - Rank snapshot
+      
+      **Business Cases:**
+        1. Champion win rate by patch
+        2. Player performance analysis
+        3. Blue vs Red side win rate
+        4. Objective control impact
+        5. Role/position analysis
+    columns:
+      - name: match_id
+        description: "Match identifier (Degenerate Dimension)"
+        tests:
+          - not_null
+      - name: puuid
+        description: "Player identifier (Degenerate Dimension)"
+        tests:
+          - not_null
+      - name: date_key
+        description: "FK to dim_date"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: player_key
+        description: "FK to dim_player"
+        tests:
+          - relationships:
+              to: ref('dim_player')
+              field: player_key
+      - name: champion_key
+        description: "FK to dim_champion"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_champion')
+              field: champion_key
+      - name: queue_patch_key
+        description: "FK to dim_queue_patch"
+        tests:
+          - relationships:
+              to: ref('dim_queue_patch')
+              field: queue_patch_key
+      - name: win
+        description: "Whether player won"
+        tests:
+          - not_null
+      - name: kills
+        description: "Number of kills"
+      - name: deaths
+        description: "Number of deaths"
+      - name: assists
+        description: "Number of assists"
+      - name: kda
+        description: "KDA ratio"
+      - name: gold_earned
+        description: "Total gold earned"
+      - name: total_cs
+        description: "Total creep score"
+      - name: vision_score
+        description: "Vision score"
+      - name: damage_to_champions
+        description: "Damage dealt to champions"
+      - name: team_baron_kills
+        description: "Team's baron kills"
+      - name: team_dragon_kills
+        description: "Team's dragon kills"
+      - name: rank_tier_at_match
+        description: "Player's tier at match time"
+      - name: rank_lp_at_match
+        description: "Player's LP at match time"
