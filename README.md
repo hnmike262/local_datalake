@@ -12,10 +12,7 @@ A complete, Docker-based **Modern Data Lakehouse** for analyzing **League of Leg
 - [Tech Stack](#tech-stack)
 - [Quick Start](#quick-start)
 - [Implementation](#implementation)
-- [Working with the Lakehouse](#working-with-the-lakehouse)
 - [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
 - [References](#references)
 
 ---
@@ -384,10 +381,12 @@ Detailed guides in `docs/` folder:
 
 ## Power BI
 
+![Power BI](images/powerbi.png)
 
 ---
 
 ## License
+
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
