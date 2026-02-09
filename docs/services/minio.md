@@ -82,7 +82,7 @@ docker compose up -d minio
 2. Login with: `minioadmin` / `miniopassword123`
 3. Verify `lakehouse` bucket exists
 
-![MinIO Console](../../images/minio-console.png)
+![MinIO Console](../../images/minio.png)
 
 ---
 
@@ -148,7 +148,7 @@ Chứa Iceberg tables với metadata quản lý:
 
 2. **Start MinIO:**
    ```bash
-   docker compose up -d minio minio-init
+   docker compose up -d minio 
    ```
 
 3. **Run Riot API extraction first:**

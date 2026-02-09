@@ -4,7 +4,6 @@
     on_table_exists='drop'
 ) }}
 
--- Clean team data
 SELECT
     match_id,
     team_id,
@@ -27,7 +26,6 @@ SELECT
     first_inhibitor,
     first_blood,
     
-    -- Bans (individual columns)
     ban_1,
     ban_2,
     ban_3,

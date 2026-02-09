@@ -3,9 +3,6 @@
     schema='gold'
 ) }}
 
--- Dimension: Items (with Data Dragon image URLs)
--- Grain: 1 row per unique item_id
--- Maps item0-item6 in fct_participant_match
 
 WITH items_used AS (
     SELECT DISTINCT item_id
@@ -30,7 +27,6 @@ WITH items_used AS (
 SELECT
     item_id AS item_key,
     item_id,
-    -- Data Dragon Image URL (v14.24.1)
     CONCAT(
         'https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/',
         CAST(item_id AS VARCHAR),

@@ -3,7 +3,6 @@
     schema='silver'
 ) }}
 
--- Clean and enrich participant data
 
 SELECT
     -- Match identifiers
@@ -111,7 +110,7 @@ SELECT
     perk_shard_flex,
     perk_shard_offense,
     
-    -- Derived metrics
+    --  metrics
     CASE 
         WHEN game_duration > 0 THEN CAST(gold_earned AS DOUBLE) / (CAST(game_duration AS DOUBLE) / 60)
         ELSE 0.0

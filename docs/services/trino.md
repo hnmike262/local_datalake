@@ -162,7 +162,7 @@ jdbc:trino://localhost:8082/iceberg
 1. Click **Test Connection** → Expected: ✅ Successful
 2. Click **OK** để lưu
 
-![DataGrip Trino Connection](../../images/datagrip-trino-connection.png)
+![DataGrip Trino Connection](../../images/trino_datagrip.png)
 
 #### 3.4. Explore Iceberg Tables
 
@@ -231,7 +231,7 @@ JOIN iceberg.gold.dim_champion c ON f.champion_key = c.champion_key
 LIMIT 20;
 ```
 
-![DataGrip Query Results](../../images/datagrip-query-results.png)
+
 
 #### 3.7. Xem Iceberg Metadata
 
@@ -284,7 +284,7 @@ LIMIT 10;
 2. No authentication required
 3. View active queries and cluster info
 
-![Trino Web UI](../../images/trino-ui.png)
+![Trino Web UI](../../images/trino_ui.png)
 
 ### Step 5: Test Trino CLI
 
@@ -358,12 +358,12 @@ lol_lakehouse:
   outputs:
     dev:
       type: trino
-      method: none           # No auth for local
+      method: none           
       user: admin
-      host: localhost        # hoặc 'trino' nếu trong Docker
+      host: localhost        
       port: 8082
-      database: iceberg      # Tên catalog
-      schema: gold           # Default schema
+      database: iceberg      
+      schema: gold           
       threads: 4
 ```
 
@@ -534,7 +534,7 @@ For Power BI, DBeaver, or other BI tools:
    - Schema: `gold`
 3. Connect using ODBC data source
 
-![Power BI Connection](../../images/powerbi-trino.png)
+![Power BI Connection](../../images/powerbi.png)
 
 ---
 
@@ -642,7 +642,7 @@ curl -s http://localhost:8181/v1/config | jq
 }
 ```
 
-![Iceberg REST API](../../images/iceberg-rest.png)
+
 
 ### Iceberg API Endpoints
 

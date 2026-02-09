@@ -9,7 +9,6 @@
 WITH src AS (
     SELECT
         puuid,
-        -- Normalize platform to UPPERCASE for consistent joining
         UPPER(platform) AS platform,
         tier,
         league_points,
@@ -23,7 +22,7 @@ WITH src AS (
         END AS winrate,
         from_iso8601_timestamp(ingest_ts) AS ingest_ts
     FROM {{ source('bronze', 'ladder') }}
-    WHERE puuid IS NOT NULL  -- Filter out rows without PUUID
+    WHERE puuid IS NOT NULL  
 ),
 
 -- Get latest record per player

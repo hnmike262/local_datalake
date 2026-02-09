@@ -26,7 +26,7 @@ with DAG(
         ),
     )
     
-    # Transform Bronze into Silver 
+    # Bronze to Silver 
     dbt_silver = BashOperator(
         task_id='dbt_silver',
         bash_command=(
@@ -35,7 +35,7 @@ with DAG(
         ),
     )
     
-    # Aggregate Silver into Gold 
+    #  Silver to Gold 
     dbt_gold = BashOperator(
         task_id='dbt_gold',
         bash_command=(

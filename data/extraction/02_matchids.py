@@ -1,17 +1,19 @@
-import logging
-import pandas as pd
 import time
 from datetime import datetime
+
+import pandas as pd
+from config import BRONZE_DIR, PLATFORM, QUEUE, REGION, REGIONAL_URL
+from riot_client import SESSION, api_request
 from tqdm import tqdm
-from config import PLATFORM, REGION, QUEUE, REGIONAL_URL, BRONZE_DIR
-from riot_client import api_request, SESSION
+
 
 def get_match_ids(puuid: str, count: int = 20) -> list:
     """Get match IDs for a player"""
     url = f"{REGIONAL_URL}/lol/match/v5/matches/by-puuid/{puuid}/ids"
     params = f"?queue={QUEUE}&start=0&count={count}"
     result = api_request(url + params, SESSION)
-    return result  
+    return result
+
 
 def main():
     # Load ladder
@@ -26,16 +28,14 @@ def main():
         try:
             match_ids = get_match_ids(puuid, count=20)
             for mid in match_ids:
-                all_matches.append(
-                    {
-                        "match_id": mid,
-                        "puuid": puuid,
-                        "platform": PLATFORM,
-                        "region": REGION,
-                        "queue_id": QUEUE,
-                        "ingest_ts": datetime.now().isoformat(),
-                    }
-                )
+                all_matches.append({
+                    "match_id": mid,
+                    "puuid": puuid,
+                    "platform": PLATFORM,
+                    "region": REGION,
+                    "queue_id": QUEUE,
+                    "ingest_ts": datetime.now().isoformat(),
+                })
             time.sleep(0.05)
         except Exception as e:
             print(f" Failed to fetch matches for PUUID {puuid}: {e}")

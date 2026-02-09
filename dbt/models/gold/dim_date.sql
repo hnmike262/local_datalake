@@ -22,9 +22,5 @@ SELECT
     EXTRACT(week FROM calendar_date)    AS week_of_year,
     EXTRACT(day FROM calendar_date)     AS day,
     EXTRACT(dow FROM calendar_date)     AS day_of_week,
-    date_format(calendar_date, '%a')    AS day_name,
-    CASE 
-        WHEN EXTRACT(dow FROM calendar_date) IN (6, 7) THEN TRUE 
-        ELSE FALSE 
-    END AS is_weekend
+    date_format(calendar_date, '%a')    AS day_name
 FROM dates

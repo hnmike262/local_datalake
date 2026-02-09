@@ -3,12 +3,9 @@
     schema='gold'
 ) }}
 
--- Dimension: Summoner Spells (with Data Dragon image URLs)
--- Grain: 1 row per unique spell_id
--- Maps spell1_id, spell2_id in fct_participant_match
+
 
 WITH spell_reference AS (
-    -- Static mapping: spell_id -> spell_key (Data Dragon uses spell_key for image filenames)
     SELECT * FROM (VALUES
         (21, 'SummonerBarrier', 'Barrier'),
         (1, 'SummonerBoost', 'Cleanse'),

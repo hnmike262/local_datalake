@@ -220,7 +220,7 @@ def main():
                 all_teams.extend(process_teams(match_json))
             time.sleep(0.05)
         except Exception as e:
-            print(f"\n Error {match_id}: {e}")
+            print(f" Error {match_id}: {e}")
             continue
 
     # Save participants

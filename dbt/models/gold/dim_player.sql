@@ -3,15 +3,11 @@
     schema='gold'
 ) }}
 
--- Dimension: Player (summoner identity + current rank)
--- Grain: 1 row per unique player (puuid)
--- Combines player identity from matches + current rank from ladder
 
 WITH players_from_matches AS (
     SELECT
         puuid,
         platform,
-        -- Clean empty summoner_name, fallback to riot_id
         COALESCE(
             NULLIF(TRIM(summoner_name), ''),
             riot_id_name
@@ -69,7 +65,7 @@ SELECT
     l.current_losses,
     l.current_winrate,
     
-    -- Rank Emblem Image URL (using correct CommunityDragon path)
+    -- Rank Emblem Image URL 
     CASE l.current_tier
         WHEN 'CHALLENGER' THEN 'https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/ranked-emblem/emblem-challenger.png'
         WHEN 'GRANDMASTER' THEN 'https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/ranked-emblem/emblem-grandmaster.png'

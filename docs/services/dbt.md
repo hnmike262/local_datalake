@@ -29,7 +29,7 @@ dbt (data build tool) handles SQL transformations in the data lakehouse, transfo
 
 ## 1. Project Initialization
 
-### 1.1 Khởi Tạo Project Mới (Fresh Setup)
+### 1.1 Khởi Tạo Project Mới 
 
 ```bash
 pip install "dbt-trino==1.10.0"

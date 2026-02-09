@@ -304,7 +304,7 @@ Done. PASS=10 WARN=0 ERROR=0 SKIP=0 TOTAL=10
 dbt test --profiles-dir . --target local
 ```
 
-![dbt Run](images/dbt-run.png)
+
 
 → [Detailed Guide](docs/services/dbt.md)
 

@@ -8,7 +8,7 @@ Airflow orchestrates the data pipeline, scheduling and monitoring dbt transforma
 
 | Property | Value |
 |----------|-------|
-| **Ports** | `8083` (Web UI), `8793` (worker logs) |
+| **Ports** | `8083` (Web UI)|
 | **Config** | `docker-compose.yml` environment |
 | **DAGs** | `airflow/dags/` |
 | **Depends On** | `airflow-db`, `trino`, `minio` |
@@ -36,10 +36,10 @@ docker compose up -d airflow
 ### Step 3: Access Airflow UI
 
 1. Open browser: http://localhost:8083
-2. Login with: `admin` / `admin`
+2. Login with: `admin` / `admin123`
 3. View DAGs in the dashboard
 
-![Airflow DAGs](../../images/3irflow-dags.png)
+![Airflow DAGs](../../images/airflow_pipeline.png)
 
 ---
 

@@ -271,30 +271,7 @@ models:
 
   - name: fct_participant_match
     description: |
-      Main fact table for participant match performance.
-      **Grain:** 1 row per `(match_id, puuid)`
-      **Source:** stg_matches_participants + stg_matches_teams + stg_ladder
-      **Design:** Simple star schema with ~45 columns
-      
-      **Foreign Keys:**
-        - date_key → dim_date
-        - player_key → dim_player  
-        - champion_key → dim_champion
-        - queue_patch_key → dim_queue_patch
-      
-      **Denormalized (kept in fact):**
-        - Items (item0-6)
-        - Spells (spell1, spell2)
-        - Keystone rune
-        - Team objectives
-        - Rank snapshot
-      
-      **Business Cases:**
-        1. Champion win rate by patch
-        2. Player performance analysis
-        3. Blue vs Red side win rate
-        4. Objective control impact
-        5. Role/position analysis
+      Fact table capturing participant-level match performance metrics.
     columns:
       - name: match_id
         description: "Match identifier (Degenerate Dimension)"

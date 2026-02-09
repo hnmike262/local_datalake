@@ -21,7 +21,7 @@ The Riot Games API provides access to League of Legends match data, player stati
 2. Click **Sign In** 
 3. Login with your Riot account
 
-![Riot Developer Portal](../../images/riot%20portal.png) 
+![Riot Developer Portal](../../images/riot_portal.png) 
 
 ### Step 2: Get Development API Key
 
@@ -29,7 +29,7 @@ The Riot Games API provides access to League of Legends match data, player stati
 2. Your **Development API Key** is displayed on the main page
 3. Click **Regenerate API Key** if expired
 
-![Riot API Key](../../images/riot%20api%20key.png)
+![Riot API Key](../../images/riot_api_key.png)
 
 Note: Development key expires every **24 hours**. 
 
@@ -53,9 +53,9 @@ RIOT_API_KEY=RGAPI-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 | `/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}` | Get account by Riot ID | Get account info |
 
 
-![Riot Account](../../images/account%20v1.png) 
+![Riot Account](../../images/account_v1.png) 
 
-![Riot Summoner](../../images/account%20v1.png)
+![Riot Summoner](../../images/account_v1.png)
 
 
 ### Match APIs
@@ -75,9 +75,9 @@ RIOT_API_KEY=RGAPI-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 | `/lol/league/v4/masterleagues/by-queue/{queue}` | Get Master ladder | Master tier players |
 
 
-![Riot league v4](../../images/league%20v4.png)
+![Riot league v4](../../images/league_v4.png)
 
-![Riot match v5](../../images/match%20v5.png)
+![Riot match v5](../../images/match_v5.png)
 ### Static Data (Data Dragon)
 
 | Resource | URL | Description |
@@ -183,7 +183,9 @@ Upload Bronze data lên MinIO storage.
 ```bash
 python minio_upload.py
 ```
-
-
+**check bucket**
+```bash
+aws --endpoint-url http://localhost:9000 s3 ls
+```
 
 [← Back to Services](../README.md#service-guides)

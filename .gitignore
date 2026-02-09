@@ -18,14 +18,6 @@ airflow/dags/__pycache__/
 airflow/dags/logs/
 airflow/**/__pycache__/
 
-# Data files (raw, bronze, silver, gold layers)
-data/raw/
-data/bronze/
-data/__pycache__/
-data/*.csv
-data/*.parquet
-data/*.json
-
 # DBT
 dbt/logs/
 dbt/target/
@@ -54,12 +46,6 @@ docker-compose.override.yml
 .env.local
 .env.*.local
 
-# Jupyter Notebook
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-
-# MinIO data (if stored locally)
-minio-data/
 
 # Trino logs
 trino/logs/

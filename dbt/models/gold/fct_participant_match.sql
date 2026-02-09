@@ -6,7 +6,7 @@
     }
 ) }}
 
--- Fact: Participant Match Performance (with all Image URLs for Power BI)
+-- Fact: Participant 
 
 
 WITH participants AS (
@@ -143,23 +143,19 @@ SELECT
     champion_id AS champion_key,        
     queue_patch_key,                    
 
-    -- === CONTEXT ===
     platform,
     side,                               
     team_position,                       
     game_start_datetime,
     game_duration AS game_duration_seconds,
 
-    -- === CHAMPION INFO + IMAGE ===
     champion_id,
     champion_name,
     CONCAT('https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/', champion_name, '.png') AS champion_image_url,
     CONCAT('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/', champion_name, '_0.jpg') AS champion_splash_url,
 
-    -- === OUTCOME ===
     win,
     
-    -- === COMBAT ===
     kills,
     deaths,
     assists,
@@ -167,24 +163,21 @@ SELECT
     largest_killing_spree,
     total_damage_dealt_to_champions AS damage_to_champions,
     total_damage_taken AS damage_taken,
-    
-    -- === ECONOMY ===
+
     gold_earned,
     total_cs,
     gold_per_minute,
     cs_per_minute,
     
-    -- === VISION ===
     vision_score,
     wards_placed,
     wards_killed,
     
     total_time_spent_dead AS time_spent_dead,
     
-    -- === SPELLS + IMAGES ===
     summoner1_id AS spell1_id,
     summoner2_id AS spell2_id,
-    -- Spell Image URLs (Data Dragon)
+   
     CASE summoner1_id
         WHEN 21 THEN 'https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerBarrier.png'
         WHEN 1 THEN 'https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerBoost.png'
@@ -214,11 +207,10 @@ SELECT
         ELSE NULL
     END AS spell2_image_url,
 
-    -- === RUNES + IMAGES ===
     perk_keystone AS keystone_rune_id,
     perk_primary_style AS primary_rune_tree,
     perk_secondary_style AS secondary_rune_tree,
-    -- Keystone Rune Image URLs (Data Dragon)
+  
     CASE perk_keystone
         -- Precision
         WHEN 8005 THEN 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png'
@@ -263,7 +255,6 @@ SELECT
         ELSE NULL
     END AS secondary_rune_tree_image_url,
 
-    -- === ITEMS + IMAGES ===
     item0, item1, item2, item3, item4, item5, item6,
     -- Item Image URLs (Data Dragon)
     CASE WHEN item0 > 0 THEN CONCAT('https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/', CAST(item0 AS VARCHAR), '.png') ELSE NULL END AS item0_image_url,
@@ -274,7 +265,6 @@ SELECT
     CASE WHEN item5 > 0 THEN CONCAT('https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/', CAST(item5 AS VARCHAR), '.png') ELSE NULL END AS item5_image_url,
     CASE WHEN item6 > 0 THEN CONCAT('https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/', CAST(item6 AS VARCHAR), '.png') ELSE NULL END AS item6_image_url,
 
-    -- === ROLE ICON (Unicode for simple display) ===
     CASE team_position
         WHEN 'TOP' THEN '🛡️'
         WHEN 'JUNGLE' THEN '🌲'
@@ -284,7 +274,6 @@ SELECT
         ELSE '❓'
     END AS role_icon,
 
-    -- === TEAM OBJECTIVES ===
     team_baron_kills,
     team_dragon_kills,
     team_rift_herald_kills,
@@ -294,7 +283,6 @@ SELECT
     team_first_dragon,
     team_first_baron,
     
-    -- === RANK AT MATCH ===
     rank_tier_at_match,
     rank_lp_at_match,
     

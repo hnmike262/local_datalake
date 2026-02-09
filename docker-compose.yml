@@ -116,22 +116,7 @@ services:
     cpus: '2'
     mem_limit: 4G
 
-  # ============================================================================
-  # Spark Service
-  # ----------------------------------------------------------------------------
-  # RIOT API CONFIGURATION:
-  #   - RIOT_API_KEY: Loaded via ${RIOT_API_KEY:-} from .env file (optional)
-  #   - Scripts location: ./scripts mounted to /opt/scripts
-  #   - Data output: ./data mounted to /opt/data
-  #   - Extraction scripts: data/extraction/01_*.py, 02_*.py, 03_*.py
-  #
-  # To configure:
-  #   1. Add RIOT_API_KEY=your_api_key to .env file in project root
-  #   2. API key is passed to container as environment variable
-  #   3. Scripts in /opt/scripts can access via os.environ['RIOT_API_KEY']
-  #
-  # See docs/services/riot-api.md for API configuration and rate limiting.
-  # ============================================================================
+  
   spark:
     build:
       context: .
@@ -145,14 +130,14 @@ services:
     volumes:
       - ./spark/jobs:/opt/spark/jobs
       - ./spark/notebooks:/opt/spark/notebooks
-      - ./data:/opt/data              # Data directory for extraction outputs
-      - ./scripts:/opt/scripts        # Riot API extraction scripts
+      - ./data:/opt/data              
+      - ./scripts:/opt/scripts        
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_S3_ENDPOINT: http://minio:9000
       ICEBERG_REST_URI: http://iceberg-rest:8181
-      RIOT_API_KEY: ${RIOT_API_KEY:-}  # Optional: Riot API key for data ingestion
+      RIOT_API_KEY: ${RIOT_API_KEY:-} 
     depends_on:
       iceberg-rest:
         condition: service_healthy

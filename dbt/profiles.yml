@@ -22,4 +22,4 @@ lakehouse:
       http_scheme: http
       threads: 2
 
-  target: docker 
+  target: local 
